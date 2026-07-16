@@ -66,7 +66,6 @@ export default function HazardDetailsInputs({
             <option value="low" className="text-slate-500">Rendah (Low)</option>
             <option value="medium" className="text-amber-600">Sedang (Medium)</option>
             <option value="high" className="text-orange-600">Tinggi (High)</option>
-            <option value="critical" className="text-red-600">Kritis (Critical)</option>
           </select>
         </div>
       </div>

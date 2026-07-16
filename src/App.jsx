@@ -48,7 +48,7 @@ const MOCK_REPORTS = [
     photo_url: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&q=80',
     latitude: -6.1950,
     longitude: 106.8320,
-    hazard_level: 'critical',
+    hazard_level: 'high',
     upvotes: 45,
     downvotes: 0,
     status: 'pending'
@@ -171,23 +171,21 @@ export default function App() {
 
       // Define mappings based on new strict DDL enums
       const typeMap = {
-        'Jalanan_rusak': 'Jalanan_rusak',
-        'Lampu_lalu_lintas': 'Lampu_lalu_lintas',
-        'Banjir': 'Banjir',
-        'Pohon_tumbang': 'Pohon_tumbang',
-        'Other': 'Other'
+        'Jalanan_rusak': 'jalanan_rusak',
+        'Lampu_lalu_lintas': 'lampu_lalu_lintas',
+        'Banjir': 'banjir',
+        'Pohon_tumbang': 'pohon_tumbang',
+        'Other': 'other'
       };
       const levelMap = {
-        'Rendah': 'Rendah',
-        'Sedang': 'Sedang',
-        'Tinggi': 'Tinggi'
+        'Rendah': 'low',
+        'Sedang': 'medium',
+        'Tinggi': 'high'
       };
       const statusMap = {
-        'Aktif': 'Aktif',
-        'Ditangani': 'Ditangani',
-        'Selesai': 'Selesai',
-        'pending': 'Aktif',
-        'resolved': 'Selesai'
+        'Aktif': 'pending',
+        'Ditangani': 'working',
+        'Selesai': 'resolved',
       };
 
       if (data && data.length > 0) {
@@ -205,7 +203,7 @@ export default function App() {
           hazard_level: levelMap[dbItem.hazard_level] || 'medium',
           upvotes: dbItem.upvotes || 0,
           downvotes: dbItem.downvotes || 0,
-          status: statusMap[dbItem.status] || 'Aktif'
+          status: statusMap[dbItem.status] || 'pending'
         }));
 
         setReports(mappedData);
@@ -224,14 +222,11 @@ export default function App() {
           'low': 'Rendah',
           'medium': 'Sedang',
           'high': 'Tinggi',
-          'critical': 'Tinggi'
         };
         const statusMapReverse = {
           'pending': 'Aktif',
+          'working': 'Ditangani',
           'resolved': 'Selesai',
-          'Aktif': 'Aktif',
-          'Ditangani': 'Ditangani',
-          'Selesai': 'Selesai'
         };
 
         const dbMockData = MOCK_REPORTS.map(r => ({
@@ -274,7 +269,7 @@ export default function App() {
             hazard_level: levelMap[dbItem.hazard_level] || 'medium',
             upvotes: dbItem.upvotes || 0,
             downvotes: dbItem.downvotes || 0,
-            status: statusMap[dbItem.status] || 'Aktif'
+            status: statusMap[dbItem.status] || 'pending'
           }));
           setReports(mappedSeeded);
         } else {
@@ -335,21 +330,18 @@ export default function App() {
           'low': 'Rendah',
           'medium': 'Sedang',
           'high': 'Tinggi',
-          'critical': 'Tinggi'
         };
         const statusMapReverse = {
           'pending': 'Aktif',
+          'working': 'Ditangani',
           'resolved': 'Selesai',
-          'Aktif': 'Aktif',
-          'Ditangani': 'Ditangani',
-          'Selesai': 'Selesai'
         };
 
         const dbReport = {
           jenis: typeMapReverse[reportToSave.type] || 'Other',
           judul: reportToSave.title,
           deskripsi: reportToSave.description,
-          photo_url: reportToSave.photo_url,
+          foto_url: reportToSave.photo_url,
           lat: reportToSave.latitude,
           lng: reportToSave.longitude,
           display_name: reportToSave.display_name,
@@ -382,11 +374,9 @@ export default function App() {
             'Tinggi': 'high'
           };
           const statusMap = {
-            'Aktif': 'Aktif',
-            'Ditangani': 'Ditangani',
-            'Selesai': 'Selesai',
-            'pending': 'Aktif',
-            'resolved': 'Selesai'
+            'Aktif': 'pending',
+            'Ditangani': 'working',
+            'Selesai': 'resolved',
           };
 
           const insertedReport = {
@@ -395,14 +385,14 @@ export default function App() {
             type: typeMap[data[0].jenis] || 'other',
             title: data[0].judul,
             description: data[0].deskripsi,
-            photo_url: data[0].foto_url,
+            foto_url: data[0].photo_url,
             latitude: data[0].lat,
             longitude: data[0].lng,
             display_name: data[0].display_name,
             hazard_level: levelMap[data[0].hazard_level] || 'medium',
             upvotes: data[0].upvotes || 0,
             downvotes: data[0].downvotes || 0,
-            status: statusMap[data[0].status] || 'Aktif'
+            status: statusMap[data[0].status] || 'pending'
           };
           setReports([insertedReport, ...reports]);
         }

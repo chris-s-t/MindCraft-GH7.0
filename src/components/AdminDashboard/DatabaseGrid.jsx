@@ -150,6 +150,7 @@ export default function DatabaseGrid({
                     key={r.id}
                     className={`hover:bg-slate-50 transition ${isChecked ? 'bg-blue-50/50' : ''}`}
                   >
+                    {/* Checkbox ID column */}
                     <td className="p-3">
                       <button
                         onClick={() => toggleSelect(r.id)}
@@ -162,26 +163,38 @@ export default function DatabaseGrid({
                         )}
                       </button>
                     </td>
+
+                    {/* Judul */}
                     <td className="p-3 font-semibold text-slate-800 truncate max-w-xs">{r.title}</td>
+
+                    {/* Jenis */}
                     <td className="p-3">
                       <span
                         className="px-2 py-0.5 rounded-full font-sans text-[9px] border font-bold uppercase"
                         style={{ borderColor: typeMeta.color, color: typeMeta.color, backgroundColor: `${typeMeta.color}15` }}
                       >
-                        {typeMeta.label}
+                        {typeMeta.type}
                       </span>
                     </td>
+
                     <td className="p-3 text-slate-500 font-sans text-[10px] truncate max-w-sm" title={r.display_name}>
                       {r.display_name || 'Koordinat Tertentu'}
                     </td>
-                    <td className="p-3">
-                      {r.hazard_level === 'high' && <span className="text-red-600 font-bold">▲ Tinggi</span>}
-                      {r.hazard_level === 'medium' && <span className="text-amber-600 font-semibold">● Sedang</span>}
+
+                    {/* Tingkat Bahaya */}
+                    <td className="text-center p-3">
                       {r.hazard_level === 'low' && <span className="text-slate-500">■ Rendah</span>}
+                      {r.hazard_level === 'medium' && <span className="text-amber-600 font-semibold">● Sedang</span>}
+                      {r.hazard_level === 'high' && <span className="text-red-600 font-bold">▲ Tinggi</span>}
                     </td>
+
+                    {/* Up/Down Votes */}
                     <td className="p-3 text-center font-sans text-slate-600">
                       <span className="text-emerald-600 font-bold">▲ {r.upvotes}</span>
+                      <span className="ml-3 text-red-600 font-bold">▲ {r.downvotes}</span>
                     </td>
+
+                    {/* Status */}
                     <td className="p-3">
                       {r.status === 'Selesai' ? (
                         <span className="text-emerald-600 font-bold flex items-center gap-1 text-[10px]">
@@ -200,9 +213,13 @@ export default function DatabaseGrid({
                         </span>
                       )}
                     </td>
+
+                    {/* Tanggal Dilaporkan */}
                     <td className="p-3 text-slate-500 text-[10px]">
                       {new Date(r.created_at).toLocaleString('id-ID')}
                     </td>
+
+                    {/* Aksi */}
                     <td className="p-3 flex items-center justify-center gap-1.5">
                       <button
                         onClick={() => openEditModal(r)}

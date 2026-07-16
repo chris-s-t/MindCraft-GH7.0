@@ -28,9 +28,9 @@ export default function AdminDashboard({ reports, fetchReports, onResolve, isOff
   const [editingReport, setEditingReport] = useState(null);
   const [editTitle, setEditTitle] = useState('');
   const [editDesc, setEditDesc] = useState('');
-  const [editType, setEditType] = useState('jalanan_rusak');
+  const [editType, setEditType] = useState('');
   const [editLevel, setEditLevel] = useState('medium');
-  const [editStatus, setEditStatus] = useState('Aktif');
+  const [editStatus, setEditStatus] = useState('pending');
   const [isSaving, setIsSaving] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 

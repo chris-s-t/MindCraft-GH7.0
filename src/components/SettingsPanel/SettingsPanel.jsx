@@ -207,11 +207,11 @@ export default function SettingsPanel({
         <h2 className="text-md font-mono font-bold tracking-widest text-white uppercase">Sistem Pengaturan</h2>
       </div>
 
-      <div className="space-y-4 text-sm text-slate-300 flex-1 overflow-y-auto pr-1">
+      <div className="space-y-4 text-sm text-slate-600 flex-1 overflow-y-auto pr-1">
         {/* 1. Accent Color Customizer */}
         <div>
           <label className="block text-xs uppercase tracking-wider text-slate-400 font-mono mb-2">Ambient Ambient Glow</label>
-          <div className="flex items-center justify-between bg-slate-950/40 p-2.5 rounded border border-slate-800">
+          <div className="flex items-center justify-between bg-slate-50 p-2.5 rounded border border-slate-800">
             {COLOR_PRESETS.map((preset) => (
               <button
                 key={preset.id}
@@ -236,7 +236,7 @@ export default function SettingsPanel({
             <Volume2 className="w-3.5 h-3.5 text-[var(--accent-color)]" />
             Pengaturan Suara
           </label>
-          <div className="space-y-2 bg-slate-950/40 p-2.5 rounded border border-slate-800">
+          <div className="space-y-2 bg-slate-50 border border-slate-200 rounded-lg p-2.5 rounded border border-slate-800">
             <label className="flex items-center justify-between cursor-pointer">
               <span className="text-xs">Aktifkan Alarm Beep Synth</span>
               <input
@@ -281,7 +281,7 @@ export default function SettingsPanel({
             <Sliders className="w-3.5 h-3.5 text-[var(--accent-color)]" />
             Simulator Perjalanan (GPS)
           </label>
-          <div className="bg-slate-950/40 p-2.5 rounded border border-slate-800 space-y-2">
+          <div className="bg-slate-50 p-2.5 rounded border border-slate-800 space-y-2">
             {!activeRoute ? (
               <p className="text-xs text-slate-500 text-center py-2 font-mono">
                 Rencanakan rute alternatif di panel kiri untuk mengaktifkan simulasi.

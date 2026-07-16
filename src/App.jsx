@@ -446,7 +446,7 @@ export default function App() {
   const handleResolve = async (id) => {
     const updatedReports = reports.map((r) => {
       if (r.id === id) {
-        return { ...r, status: 'Selesai' };
+        return { ...r, status: 'resolved' };
       }
       return r;
     });
@@ -456,7 +456,7 @@ export default function App() {
     // Update locally resolved reports as well for offline display sync
     const reportToResolve = reports.find(r => r.id === id);
     if (reportToResolve) {
-      const resolvedItem = { ...reportToResolve, status: 'Selesai' };
+      const resolvedItem = { ...reportToResolve, status: 'resolved' };
       const newResolvedList = [resolvedItem, ...resolvedReports];
       setResolvedReports(newResolvedList);
       localStorage.setItem('mindcraft_resolved_reports', JSON.stringify(newResolvedList));
@@ -483,7 +483,7 @@ export default function App() {
 
   const allReportsForGov = [
     ...reports,
-    ...resolvedReports.filter(rr => !reports.some(r => r.id === rr.id)).map(r => ({ ...r, status: 'Selesai' }))
+    ...resolvedReports.filter(rr => !reports.some(r => r.id === rr.id)).map(r => ({ ...r, status: 'resolved' }))
   ];
 
   return (
@@ -511,7 +511,7 @@ export default function App() {
             </span>
           </div>
           <div className="hidden sm:flex items-center gap-1.5 font-mono text-[9px] border border-slate-200 px-2 py-0.5 rounded-full bg-slate-100/80 text-slate-600">
-            <span>HAZARDS: {reports.filter(r => r.status !== 'Selesai').length} AKTIF</span>
+            <span>HAZARDS: {reports.filter(r => r.status !== 'resolved' && r.status !== 'Selesai').length} AKTIF</span>
           </div>
 
         </div>

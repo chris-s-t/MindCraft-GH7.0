@@ -12,7 +12,10 @@ export function useFilteredReports(reports, searchQuery, filterType, filterLevel
       const matchesType = filterType === 'all' || r.type === filterType;
       const matchesLevel = filterLevel === 'all' || r.hazard_level === filterLevel;
       const matchesStatus =
-        filterStatus === 'all' || r.status === filterStatus;
+        filterStatus === 'all' ||
+        ((filterStatus === 'active' || filterStatus === 'Aktif') && (r.status === 'pending' || r.status === 'Aktif')) ||
+        ((filterStatus === 'resolved' || filterStatus === 'Selesai') && (r.status === 'resolved' || r.status === 'Selesai')) ||
+        ((filterStatus === 'working' || filterStatus === 'Ditangani') && (r.status === 'working' || r.status === 'Ditangani'));
 
       return matchesSearch && matchesType && matchesLevel && matchesStatus;
     });

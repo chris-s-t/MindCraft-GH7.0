@@ -82,8 +82,17 @@ export default function ReportDetail({ selectedReport, selectedReportId, onClear
           </div>
           <div className="flex flex-col gap-0.5">
             <span className="text-slate-500">Status Tindak Lanjut:</span>
-            <span className={`uppercase font-bold ${selectedReport.status === 'resolved' ? 'text-emerald-600' : 'text-amber-600'}`}>
-              {selectedReport.status === 'resolved' ? 'Selesai ditangani' : 'Menunggu tindakan'}
+            <span className={`uppercase font-bold ${selectedReport.status === 'resolved' || selectedReport.status === 'Selesai'
+                ? 'text-emerald-600'
+                : (selectedReport.status === 'working' || selectedReport.status === 'Ditangani')
+                  ? 'text-blue-600'
+                  : 'text-amber-600'
+              }`}>
+              {selectedReport.status === 'resolved' || selectedReport.status === 'Selesai'
+                ? 'Selesai ditangani'
+                : (selectedReport.status === 'working' || selectedReport.status === 'Ditangani')
+                  ? 'Sedang ditangani'
+                  : 'Menunggu tindakan'}
             </span>
           </div>
         </div>

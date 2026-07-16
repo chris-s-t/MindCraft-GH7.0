@@ -228,7 +228,7 @@ export default function DatabaseGrid({
                       >
                         <Edit className="w-3.5 h-3.5" />
                       </button>
-                      {r.status !== 'Selesai' && (
+                      {r.status !== 'resolved' && r.status !== 'Selesai' && (
                         <button
                           onClick={() => onResolve(r.id)}
                           className="p-1 border border-emerald-200 rounded bg-emerald-50 text-emerald-600 hover:text-emerald-800 hover:border-emerald-400 cursor-pointer transition"

@@ -4,8 +4,8 @@ import { useMemo } from "react";
 export default function useStatCount(reports) {
   return useMemo(() => {
     const total = reports.length;
-    const active = reports.filter(r => r.status === 'Aktif' || r.status === 'Ditangani').length;
-    const resolved = reports.filter(r => r.status === 'Selesai').length;
+    const active = reports.filter(r => r.status === 'pending' || r.status === 'working' || r.status === 'Aktif' || r.status === 'Ditangani').length;
+    const resolved = reports.filter(r => r.status === 'resolved' || r.status === 'Selesai').length;
     const upvotes = reports.reduce((sum, r) => sum + (r.upvotes || 0), 0);
 
     // Find most common type

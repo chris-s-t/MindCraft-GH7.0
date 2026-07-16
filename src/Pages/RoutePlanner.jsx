@@ -62,7 +62,7 @@ export default function RoutePlanner({
     setLoading(true);
     try {
       // Filter out resolved reports for routing safety check
-      const activeHazards = reports.filter(r => r.status !== 'Selesai');
+      const activeHazards = reports.filter(r => r.status !== 'resolved' && r.status !== 'Selesai');
 
       const routes = await getRouteAlternatives(startCoord, destinationCoord, activeHazards);
       setRouteAlternatives(routes);

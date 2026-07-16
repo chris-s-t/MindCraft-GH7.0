@@ -67,6 +67,44 @@ const MOCK_REPORTS = [
   }
 ];
 
+async function checkImageNSFW(imageUrl) {
+  // MOCK MENGGUNAKAN STRING URL UNTUK TESTING AMAN TANPA FOTO ASLI
+  if (imageUrl.includes("test-nsfw")) {
+    return true; // Pemicu simulasi deteksi NSFW berhasil
+  }
+
+  try {
+    const HF_TOKEN = "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"; 
+    
+    const responseImg = await fetch(imageUrl);
+    const blob = await responseImg.blob();
+
+    const apiResponse = await fetch(
+      "https://api-inference.huggingface.co/models/Falconsai/nsfw_image_detection",
+      {
+        headers: { Authorization: `Bearer ${HF_TOKEN}` },
+        method: "POST",
+        body: blob,
+      }
+    );
+
+    const result = await apiResponse.json();
+    
+    if (Array.isArray(result) && result.length > 0) {
+      // Cari label 'nsfw' dengan skor akurasi (confidence score) di atas 70%
+      const nsfwScore = result.find(res => res.label.toLowerCase() === 'nsfw');
+      if (nsfwScore && nsfwScore.score > 0.7) {
+        return true; 
+      }
+    }
+    return false; 
+  } catch (error) {
+    console.error("Gagal memeriksa sensor NSFW gambar:", error);
+    // Jika API down/error, kembalikan false agar aplikasi tidak crash total
+    return false; 
+  }
+}
+
 export default function App() {
   const [reports, setReports] = useState([]);
   const [resolvedReports, setResolvedReports] = useState(() => {
@@ -271,6 +309,14 @@ export default function App() {
 
   // Submit hazard report
   const handleReportSubmit = async (newReport) => {
+    if (newReport.photo_url) {
+      const isNSFW = await checkImageNSFW(newReport.photo_url);
+      if (isNSFW) {
+        alert("Penyampaian Laporan Ditolak: Foto yang Anda lampirkan terdeteksi mengandung konten tidak pantas atau NSFW. Harap gunakan foto asli terkait kondisi jalanan.");
+        return; // Hentikan penyimpanan data
+      }
+    }
+
     const tempId = `rep-${Date.now()}`;
     const reportToSave = {
       ...newReport,

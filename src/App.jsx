@@ -102,22 +102,34 @@ export default function App() {
   const [enableBeeps, setEnableBeeps] = useState(true);
   const [isSimulating, setIsSimulating] = useState(false);
 
-  // Fetch location on mount
+  // Fetch location in real-time
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUserLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          });
-        },
-        () => {
-          // Default to Central Jakarta
-          setUserLocation({ lat: -6.1754, lng: 106.8272 });
-        }
-      );
+    if (!navigator.geolocation) {
+      setUserLocation({ lat: -6.1754, lng: 106.8272 });
+      return;
     }
+
+    const watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        setUserLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        });
+      },
+      (error) => {
+        console.error("Error watching geolocation:", error);
+        setUserLocation((curr) => curr || { lat: -6.1754, lng: 106.8272 });
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+      }
+    );
+
+    return () => {
+      navigator.geolocation.clearWatch(watchId);
+    };
   }, []);
 
   // Fetch reports from Supabase (fallback to LocalStorage)

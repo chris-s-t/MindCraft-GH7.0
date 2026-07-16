@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import L from 'leaflet'
 
-export default function UserMarker({ mapRef, userLocation, simulatePosition }) {
+export default function UserMarker({ mapRef, userLocation, simulatePosition, trackUser }) {
   const userMarkerRef = useRef(null)
 
   useEffect(() => {
@@ -35,12 +35,12 @@ export default function UserMarker({ mapRef, userLocation, simulatePosition }) {
         { icon: userIcon }
       ).addTo(map)
 
-      // Only pan to user if in simulation mode
-      if (simulatePosition) {
+      // Pan to user if in simulation mode or tracking is active
+      if (simulatePosition || trackUser) {
         map.panTo([position.lat, position.lng])
       }
     }
-  }, [userLocation, simulatePosition, mapRef])
+  }, [userLocation, simulatePosition, mapRef, trackUser])
 
   return null
 }

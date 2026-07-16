@@ -28,10 +28,9 @@ export default function HazardMap({
       zoomControl: false
     }).setView([-6.1754, 106.8272], 13)
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap &copy; CARTO'
-    }).addTo(map)
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
 
     L.control.zoom({ position: 'bottomright' }).addTo(map)
 

@@ -12,9 +12,7 @@ export function useFilteredReports(reports, searchQuery, filterType, filterLevel
       const matchesType = filterType === 'all' || r.type === filterType;
       const matchesLevel = filterLevel === 'all' || r.hazard_level === filterLevel;
       const matchesStatus =
-        filterStatus === 'all' ||
-        (filterStatus === 'active' && r.status !== 'resolved') ||
-        (filterStatus === 'resolved' && r.status === 'resolved');
+        filterStatus === 'all' || r.status === filterStatus;
 
       return matchesSearch && matchesType && matchesLevel && matchesStatus;
     });

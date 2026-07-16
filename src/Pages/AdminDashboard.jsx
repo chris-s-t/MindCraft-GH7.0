@@ -48,7 +48,7 @@ export default function AdminDashboard({ reports, fetchReports, onResolve, isOff
     setEditDesc(report.description || '');
     setEditType(report.type);
     setEditLevel(report.hazard_level);
-    setEditStatus(report.status === 'resolved' ? 'Selesai' : 'Aktif');
+    setEditStatus(report.status);
   };
 
   const toggleSelectAll = () => {

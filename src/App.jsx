@@ -48,7 +48,7 @@ const MOCK_REPORTS = [
     photo_url: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&q=80',
     latitude: -6.1950,
     longitude: 106.8320,
-    hazard_level: 'high',
+    hazard_level: 'critical',
     upvotes: 45,
     downvotes: 0,
     status: 'pending'
@@ -171,21 +171,23 @@ export default function App() {
 
       // Define mappings based on new strict DDL enums
       const typeMap = {
-        'Jalanan_rusak': 'jalanan_rusak',
-        'Lampu_lalu_lintas': 'lampu_lalu_lintas',
-        'Banjir': 'banjir',
-        'Pohon_tumbang': 'pohon_tumbang',
-        'Other': 'other'
+        'Jalanan_rusak': 'Jalanan_rusak',
+        'Lampu_lalu_lintas': 'Lampu_lalu_lintas',
+        'Banjir': 'Banjir',
+        'Pohon_tumbang': 'Pohon_tumbang',
+        'Other': 'Other'
       };
       const levelMap = {
-        'Rendah': 'low',
-        'Sedang': 'medium',
-        'Tinggi': 'high'
+        'Rendah': 'Rendah',
+        'Sedang': 'Sedang',
+        'Tinggi': 'Tinggi'
       };
       const statusMap = {
-        'Aktif': 'pending',
-        'Ditangani': 'working',
-        'Selesai': 'resolved'
+        'Aktif': 'Aktif',
+        'Ditangani': 'Ditangani',
+        'Selesai': 'Selesai',
+        'pending': 'Aktif',
+        'resolved': 'Selesai'
       };
 
       if (data && data.length > 0) {
@@ -203,7 +205,7 @@ export default function App() {
           hazard_level: levelMap[dbItem.hazard_level] || 'medium',
           upvotes: dbItem.upvotes || 0,
           downvotes: dbItem.downvotes || 0,
-          status: statusMap[dbItem.status] || 'pending'
+          status: statusMap[dbItem.status] || 'Aktif'
         }));
 
         setReports(mappedData);
@@ -222,11 +224,14 @@ export default function App() {
           'low': 'Rendah',
           'medium': 'Sedang',
           'high': 'Tinggi',
+          'critical': 'Tinggi'
         };
         const statusMapReverse = {
           'pending': 'Aktif',
-          'working': 'Ditangani',
-          'resolved': 'Selesai'
+          'resolved': 'Selesai',
+          'Aktif': 'Aktif',
+          'Ditangani': 'Ditangani',
+          'Selesai': 'Selesai'
         };
 
         const dbMockData = MOCK_REPORTS.map(r => ({
@@ -269,7 +274,7 @@ export default function App() {
             hazard_level: levelMap[dbItem.hazard_level] || 'medium',
             upvotes: dbItem.upvotes || 0,
             downvotes: dbItem.downvotes || 0,
-            status: statusMap[dbItem.status] || 'pending'
+            status: statusMap[dbItem.status] || 'Aktif'
           }));
           setReports(mappedSeeded);
         } else {
@@ -330,18 +335,21 @@ export default function App() {
           'low': 'Rendah',
           'medium': 'Sedang',
           'high': 'Tinggi',
+          'critical': 'Tinggi'
         };
         const statusMapReverse = {
           'pending': 'Aktif',
-          'working': 'Ditangani',
-          'resolved': 'Selesai'
+          'resolved': 'Selesai',
+          'Aktif': 'Aktif',
+          'Ditangani': 'Ditangani',
+          'Selesai': 'Selesai'
         };
 
         const dbReport = {
           jenis: typeMapReverse[reportToSave.type] || 'Other',
           judul: reportToSave.title,
           deskripsi: reportToSave.description,
-          foto_url: reportToSave.photo_url,
+          photo_url: reportToSave.photo_url,
           lat: reportToSave.latitude,
           lng: reportToSave.longitude,
           display_name: reportToSave.display_name,
@@ -374,9 +382,11 @@ export default function App() {
             'Tinggi': 'high'
           };
           const statusMap = {
-            'Aktif': 'pending',
-            'Ditangani': 'working',
-            'Selesai': 'resolved'
+            'Aktif': 'Aktif',
+            'Ditangani': 'Ditangani',
+            'Selesai': 'Selesai',
+            'pending': 'Aktif',
+            'resolved': 'Selesai'
           };
 
           const insertedReport = {
@@ -392,7 +402,7 @@ export default function App() {
             hazard_level: levelMap[data[0].hazard_level] || 'medium',
             upvotes: data[0].upvotes || 0,
             downvotes: data[0].downvotes || 0,
-            status: statusMap[data[0].status] || 'pending'
+            status: statusMap[data[0].status] || 'Aktif'
           };
           setReports([insertedReport, ...reports]);
         }
@@ -441,7 +451,7 @@ export default function App() {
   const handleResolve = async (id) => {
     const updatedReports = reports.map((r) => {
       if (r.id === id) {
-        return { ...r, status: 'resolved' };
+        return { ...r, status: 'Selesai' };
       }
       return r;
     });
@@ -451,7 +461,7 @@ export default function App() {
     // Update locally resolved reports as well for offline display sync
     const reportToResolve = reports.find(r => r.id === id);
     if (reportToResolve) {
-      const resolvedItem = { ...reportToResolve, status: 'resolved' };
+      const resolvedItem = { ...reportToResolve, status: 'Selesai' };
       const newResolvedList = [resolvedItem, ...resolvedReports];
       setResolvedReports(newResolvedList);
       localStorage.setItem('mindcraft_resolved_reports', JSON.stringify(newResolvedList));
@@ -478,7 +488,7 @@ export default function App() {
 
   const allReportsForGov = [
     ...reports,
-    ...resolvedReports.filter(rr => !reports.some(r => r.id === rr.id)).map(r => ({ ...r, status: 'resolved' }))
+    ...resolvedReports.filter(rr => !reports.some(r => r.id === rr.id)).map(r => ({ ...r, status: 'Selesai' }))
   ];
 
   return (
@@ -493,7 +503,7 @@ export default function App() {
             <h1 className="text-sm font-sans font-black tracking-wider text-slate-800 leading-none uppercase select-none">
               MINDCRAFT <span className="text-[var(--accent-color)] font-black">//</span> SAFEROUTE
             </h1>
-            <span className="text-[11px] text-slate-500 font-mono tracking-wider">SISTEM PELAPORAN BAHAYA JALAN BERBASIS KOMUNITAS</span>
+            <span className="text-[9px] text-slate-500 font-mono tracking-wider">CROWDSOURCED ROAD HAZARD TRACKING SYSTEM</span>
           </div>
         </div>
 
@@ -502,12 +512,13 @@ export default function App() {
           <div className="flex items-center gap-1.5 font-mono text-[9px] border px-2 py-0.5 rounded-full bg-slate-100/80 border-slate-200" style={{ color: isOfflineMode ? '#b45309' : '#047857' }}>
             <span className={`w-1.5 h-1.5 rounded-full ${isOfflineMode ? 'bg-amber-500 animate-ping' : 'bg-emerald-500'}`} />
             <span>
-              {isOfflineMode ? 'DEMO MODE (LOCAL)' : 'DATABASE TERHUBUNG'}
+              {isOfflineMode ? 'DEMO MODE (LOCAL)' : 'SUPABASE CONNECTED'}
             </span>
           </div>
           <div className="hidden sm:flex items-center gap-1.5 font-mono text-[9px] border border-slate-200 px-2 py-0.5 rounded-full bg-slate-100/80 text-slate-600">
-            <span>HAZARDS: {reports.filter(r => r.status !== 'resolved').length} AKTIF</span>
+            <span>HAZARDS: {reports.filter(r => r.status !== 'Selesai').length} AKTIF</span>
           </div>
+
         </div>
       </header>
 

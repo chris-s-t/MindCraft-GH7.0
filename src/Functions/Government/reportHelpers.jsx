@@ -6,8 +6,8 @@
  */
 export function filterReports(reports, activeTab) {
   return reports.filter((r) => {
-    if (activeTab === 'active') return r.status !== 'resolved';
-    return r.status === 'resolved';
+    if (activeTab === 'active') return r.status !== 'Selesai';
+    return r.status === 'Selesai';
   });
 }
 

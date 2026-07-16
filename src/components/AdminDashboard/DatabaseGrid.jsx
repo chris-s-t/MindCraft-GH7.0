@@ -73,8 +73,9 @@ export default function DatabaseGrid({
               className="bg-white border border-slate-300 rounded px-2 py-1 focus:border-[var(--accent-color)] focus:outline-none text-slate-700"
             >
               <option value="all">Semua Status</option>
-              <option value="active">Aktif</option>
-              <option value="resolved">Selesai</option>
+              <option value="Aktif">Aktif</option>
+              <option value="Ditangani">Ditangani</option>
+              <option value="Selesai">Selesai</option>
             </select>
           </div>
         </div>
@@ -182,10 +183,15 @@ export default function DatabaseGrid({
                       <span className="text-emerald-600 font-bold">▲ {r.upvotes}</span>
                     </td>
                     <td className="p-3">
-                      {r.status === 'resolved' ? (
+                      {r.status === 'Selesai' ? (
                         <span className="text-emerald-600 font-bold flex items-center gap-1 text-[10px]">
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                           SELESAI
+                        </span>
+                      ) : r.status === 'Ditangani' ? (
+                        <span className="text-blue-600 font-bold flex items-center gap-1 text-[10px]">
+                          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+                          DITANGANI
                         </span>
                       ) : (
                         <span className="text-amber-600 font-bold flex items-center gap-1 text-[10px]">
@@ -205,7 +211,7 @@ export default function DatabaseGrid({
                       >
                         <Edit className="w-3.5 h-3.5" />
                       </button>
-                      {r.status !== 'resolved' && (
+                      {r.status !== 'Selesai' && (
                         <button
                           onClick={() => onResolve(r.id)}
                           className="p-1 border border-emerald-200 rounded bg-emerald-50 text-emerald-600 hover:text-emerald-800 hover:border-emerald-400 cursor-pointer transition"

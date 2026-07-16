@@ -32,7 +32,7 @@ export const handleSaveEdit = async (e, {
         description: editDesc,
         type: editType,
         hazard_level: editLevel,
-        status: editStatus === 'Selesai' ? 'resolved' : 'pending'
+        status: editStatus
       } : r);
       localStorage.setItem('mindcraft_reports', JSON.stringify(updated));
       await fetchReports();

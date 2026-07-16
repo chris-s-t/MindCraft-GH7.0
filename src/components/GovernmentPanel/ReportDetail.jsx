@@ -1,5 +1,5 @@
 import { Clock, Eye, MapPin, ChevronRight } from 'lucide-react';
-import { HAZARD_TYPES } from '../HazardMap';
+import { HAZARD_TYPES } from '../../lib/hazardTypes';
 import UrgencyBadge from './UrgencyBadge';
 
 export default function ReportDetail({ selectedReport, selectedReportId, onClearSelection, onResolve }) {

@@ -1,4 +1,6 @@
-export const handleBulkResolve = async () => {
+import { supabase } from '../../lib/supabase';
+
+export const handleBulkResolve = async ({ selectedIds, isOfflineMode, onResolve, fetchReports, setSelectedIds }) => {
   if (selectedIds.length === 0) return;
   if (!confirm(`Tandai ${selectedIds.length} laporan sebagai selesai?`)) return;
 

@@ -1,4 +1,6 @@
-export const handleBulkDelete = async () => {
+import { supabase } from '../../lib/supabase';
+
+export const handleBulkDelete = async ({ selectedIds, isOfflineMode, fetchReports, setSelectedIds }) => {
   if (selectedIds.length === 0) return;
   if (!confirm(`PERINGATAN: Hapus permanen ${selectedIds.length} laporan dari database?`)) return;
 

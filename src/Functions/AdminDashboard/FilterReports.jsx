@@ -1,6 +1,7 @@
 import { useMemo } from "react"
 
-export const filteredReports = (reports, searchQuery, filterType, filterLevel, filterStatus) => {
+// Filter reports — must be called inside a React component
+export function useFilteredReports(reports, searchQuery, filterType, filterLevel, filterStatus) {
   return useMemo(() => {
     return reports.filter(r => {
       const matchesSearch =

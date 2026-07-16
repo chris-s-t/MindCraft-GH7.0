@@ -1,4 +1,9 @@
-export const handleSaveEdit = async (e) => {
+import { supabase } from '../../lib/supabase';
+
+export const handleSaveEdit = async (e, {
+  editingReport, editTitle, editDesc, editType, editLevel, editStatus,
+  isOfflineMode, fetchReports, setIsSaving, setEditingReport
+}) => {
   e.preventDefault();
   if (!editingReport) return;
   setIsSaving(true);

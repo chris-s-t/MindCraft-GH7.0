@@ -1,4 +1,6 @@
-export const handleDeleteOne = async (id) => {
+import { supabase } from '../../lib/supabase';
+
+export const handleDeleteOne = async (id, { isOfflineMode, fetchReports }) => {
   if (!confirm("Hapus permanen laporan ini?")) return;
   if (isOfflineMode) {
     const localData = localStorage.getItem('mindcraft_reports');

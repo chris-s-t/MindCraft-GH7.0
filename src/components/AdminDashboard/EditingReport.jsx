@@ -1,4 +1,7 @@
-function EditingReport() {
+import { X } from "lucide-react"
+import { HAZARD_TYPES } from '../../lib/hazardTypes';
+
+export default function EditingReport({ handleSaveEdit, setEditingReport, editTitle, setEditTitle, editDesc, setEditDesc, editType, setEditType, editLevel, setEditLevel, editStatus, setEditStatus, isSaving }) {
   return (
     <div className="fixed inset-0 z-60 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
       <div className="futuristic-panel w-full max-w-md p-6 rounded-lg border-t-2" style={{ borderTopColor: 'var(--accent-color)' }}>
@@ -94,5 +97,3 @@ function EditingReport() {
     </div>
   )
 }
-
-export default EditingReport;

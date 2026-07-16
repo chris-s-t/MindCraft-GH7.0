@@ -1,4 +1,4 @@
-import { HAZARD_TYPES } from '../HazardMap';
+import { HAZARD_TYPES } from '../../lib/hazardTypes';
 
 export default function HazardDetailsInputs({
   title,

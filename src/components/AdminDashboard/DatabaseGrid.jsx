@@ -1,4 +1,23 @@
-function DatabaseGrid() {
+import {
+  Search, Trash2, CheckCircle, Edit, CheckSquare, Square
+} from 'lucide-react';
+import { HAZARD_TYPES } from '../../lib/hazardTypes';
+import { handleBulkResolve } from '../../Functions/AdminDashboard/HandleBulkResolve';
+import { handleBulkDelete } from '../../Functions/AdminDashboard/HandleBulkDelete';
+import { handleDeleteOne } from '../../Functions/AdminDashboard/HandleDeleteOne';
+
+export default function DatabaseGrid({
+  reports, filteredReports, fetchReports, isOfflineMode, onResolve,
+  openEditModal, selectedIds, setSelectedIds, toggleSelect, toggleSelectAll,
+  searchQuery, setSearchQuery,
+  filterType, setFilterType,
+  filterLevel, setFilterLevel,
+  filterStatus, setFilterStatus
+}) {
+
+  const bulkResolve = () => handleBulkResolve({ selectedIds, isOfflineMode, onResolve, fetchReports, setSelectedIds });
+  const bulkDelete = () => handleBulkDelete({ selectedIds, isOfflineMode, fetchReports, setSelectedIds });
+  const deleteOne = (id) => handleDeleteOne(id, { isOfflineMode, fetchReports });
 
   return (
     <main className="futuristic-panel flex-1 rounded p-5 flex flex-col overflow-hidden min-h-[400px]">
@@ -69,14 +88,14 @@ function DatabaseGrid() {
           </span>
           <div className="flex items-center gap-2">
             <button
-              onClick={handleBulkResolve}
+              onClick={bulkResolve}
               className="px-3 py-1 bg-emerald-950 hover:bg-emerald-900 text-emerald-300 border border-emerald-700 rounded transition cursor-pointer flex items-center gap-1"
             >
               <CheckCircle className="w-3.5 h-3.5" />
               Tandai Selesai
             </button>
             <button
-              onClick={handleBulkDelete}
+              onClick={bulkDelete}
               className="px-3 py-1 bg-red-950 hover:bg-red-900 text-red-300 border border-red-700 rounded transition cursor-pointer flex items-center gap-1"
             >
               <Trash2 className="w-3.5 h-3.5" />
@@ -196,7 +215,7 @@ function DatabaseGrid() {
                         </button>
                       )}
                       <button
-                        onClick={() => handleDeleteOne(r.id)}
+                        onClick={() => deleteOne(r.id)}
                         className="p-1 border border-red-950 rounded bg-red-950/20 text-red-400 hover:text-red-200 cursor-pointer hover:border-red-700 transition"
                         title="Hapus"
                       >
@@ -213,5 +232,3 @@ function DatabaseGrid() {
     </main>
   )
 }
-
-export default DatabaseGrid;

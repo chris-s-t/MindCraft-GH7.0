@@ -48,7 +48,7 @@ const MOCK_REPORTS = [
     photo_url: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&q=80',
     latitude: -6.1950,
     longitude: 106.8320,
-    hazard_level: 'critical',
+    hazard_level: 'high',
     upvotes: 45,
     downvotes: 0,
     status: 'pending'
@@ -171,21 +171,21 @@ export default function App() {
 
       // Define mappings based on new strict DDL enums
       const typeMap = {
-        'Jalanan_rusak': 'Jalanan_rusak',
-        'Lampu_lalu_lintas': 'Lampu_lalu_lintas',
-        'Banjir': 'Banjir',
-        'Pohon_tumbang': 'Pohon_tumbang',
-        'Other': 'Other'
+        'Jalanan_rusak': 'jalanan_rusak',
+        'Lampu_lalu_lintas': 'lampu_lalu_lintas',
+        'Banjir': 'banjir',
+        'Pohon_tumbang': 'pohon_tumbang',
+        'Other': 'other'
       };
       const levelMap = {
-        'Rendah': 'Rendah',
-        'Sedang': 'Sedang',
-        'Tinggi': 'Tinggi'
+        'Rendah': 'low',
+        'Sedang': 'medium',
+        'Tinggi': 'high'
       };
       const statusMap = {
-        'Aktif': 'Aktif',
-        'Ditangani': 'Ditangani',
-        'Selesai': 'Selesai'
+        'Aktif': 'pending',
+        'Ditangani': 'working',
+        'Selesai': 'resolved'
       };
 
       if (data && data.length > 0) {
@@ -222,10 +222,10 @@ export default function App() {
           'low': 'Rendah',
           'medium': 'Sedang',
           'high': 'Tinggi',
-          'critical': 'Tinggi'
         };
         const statusMapReverse = {
           'pending': 'Aktif',
+          'working': 'Ditangani',
           'resolved': 'Selesai'
         };
 
@@ -330,10 +330,10 @@ export default function App() {
           'low': 'Rendah',
           'medium': 'Sedang',
           'high': 'Tinggi',
-          'critical': 'Tinggi'
         };
         const statusMapReverse = {
           'pending': 'Aktif',
+          'working': 'Ditangani',
           'resolved': 'Selesai'
         };
 
@@ -375,7 +375,7 @@ export default function App() {
           };
           const statusMap = {
             'Aktif': 'pending',
-            'Ditangani': 'pending',
+            'Ditangani': 'working',
             'Selesai': 'resolved'
           };
 
@@ -493,7 +493,7 @@ export default function App() {
             <h1 className="text-sm font-sans font-black tracking-wider text-slate-800 leading-none uppercase select-none">
               MINDCRAFT <span className="text-[var(--accent-color)] font-black">//</span> SAFEROUTE
             </h1>
-            <span className="text-[9px] text-slate-500 font-mono tracking-wider">CROWDSOURCED ROAD HAZARD TRACKING SYSTEM</span>
+            <span className="text-[11px] text-slate-500 font-mono tracking-wider">SISTEM PELAPORAN BAHAYA JALAN BERBASIS KOMUNITAS</span>
           </div>
         </div>
 
@@ -502,7 +502,7 @@ export default function App() {
           <div className="flex items-center gap-1.5 font-mono text-[9px] border px-2 py-0.5 rounded-full bg-slate-100/80 border-slate-200" style={{ color: isOfflineMode ? '#b45309' : '#047857' }}>
             <span className={`w-1.5 h-1.5 rounded-full ${isOfflineMode ? 'bg-amber-500 animate-ping' : 'bg-emerald-500'}`} />
             <span>
-              {isOfflineMode ? 'DEMO MODE (LOCAL)' : 'SUPABASE CONNECTED'}
+              {isOfflineMode ? 'DEMO MODE (LOCAL)' : 'DATABASE TERHUBUNG'}
             </span>
           </div>
           <div className="hidden sm:flex items-center gap-1.5 font-mono text-[9px] border border-slate-200 px-2 py-0.5 rounded-full bg-slate-100/80 text-slate-600">

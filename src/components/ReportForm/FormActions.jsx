@@ -4,7 +4,7 @@ export default function FormActions({ onClose, isSubmitting }) {
       <button
         type="button"
         onClick={onClose}
-        className="flex-1 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-300 rounded py-2 cursor-pointer font-semibold transition"
+        className="flex-1 bg-slate-100 border border-slate-300 hover:bg-slate-200 text-slate-600 rounded py-2 cursor-pointer font-semibold transition"
       >
         Batal
       </button>

@@ -98,7 +98,7 @@ export default function ReportForm({ selectedLocation, onClose, onSubmit, userLo
   return (
     <div className="futuristic-panel w-full max-h-[90vh] overflow-y-auto rounded-lg p-4 pointer-events-auto border-t-2" style={{ borderTopColor: 'var(--accent-color)' }}>
       <ReportFormHeader onClose={onClose} />
-      <form onSubmit={handleSubmit} className="space-y-3.5 text-sm text-slate-300">
+      <form onSubmit={handleSubmit} className="space-y-3.5 text-sm text-slate-700">
         <HazardDetailsInputs
           title={title}
           setTitle={setTitle}

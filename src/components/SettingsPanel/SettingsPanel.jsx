@@ -4,13 +4,13 @@ import { Settings, Volume2, ShieldAlert, Play, Square, Sliders, Check } from 'lu
 import { playAlertSynth, speakWarning, resetWarningCache } from '../../utils/audioWarning';
 import { getDistance } from '../../utils/routing';
 
-// Neon ambient presets
+// Google Maps theme presets
 const COLOR_PRESETS = [
-  { id: 'cyan', label: 'Cyber Cyan', color: '#00f0ff', rgb: '0, 240, 255' },
-  { id: 'magenta', label: 'Neon Pink', color: '#ff007f', rgb: '255, 0, 127' },
-  { id: 'green', label: 'Toxic Lime', color: '#39ff14', rgb: '57, 255, 20' },
-  { id: 'amber', label: 'Amber Alert', color: '#ffaa00', rgb: '255, 170, 0' },
-  { id: 'purple', label: 'Plasma Purple', color: '#bd00ff', rgb: '189, 0, 255' }
+  { id: 'blue', label: 'Google Blue', color: '#1a73e8', rgb: '26, 115, 232' },
+  { id: 'green', label: 'Google Green', color: '#1e8e3e', rgb: '30, 142, 62' },
+  { id: 'yellow', label: 'Google Yellow', color: '#f9ab00', rgb: '249, 171, 0' },
+  { id: 'red', label: 'Google Red', color: '#d93025', rgb: '217, 48, 37' },
+  { id: 'teal', label: 'Google Teal', color: '#00838f', rgb: '0, 131, 143' }
 ];
 
 export default function SettingsPanel({
@@ -25,7 +25,7 @@ export default function SettingsPanel({
   enableBeeps,
   setEnableBeeps
 }) {
-  const [selectedColor, setSelectedColor] = useState('cyan');
+  const [selectedColor, setSelectedColor] = useState('blue');
   const [simIntervalId, setSimIntervalId] = useState(null);
   const [simIndex, setSimIndex] = useState(0);
   const [simSpeed, setSimSpeed] = useState(3); // coordinates per tick
@@ -36,10 +36,10 @@ export default function SettingsPanel({
     setSelectedColor(preset.id);
     document.documentElement.style.setProperty('--accent-color', preset.color);
     document.documentElement.style.setProperty('--accent-color-rgb', preset.rgb);
-    document.documentElement.style.setProperty('--accent-glow', `rgba(${preset.rgb}, 0.35)`);
-    document.documentElement.style.setProperty('--accent-glow-strong', `rgba(${preset.rgb}, 0.75)`);
-    document.documentElement.style.setProperty('--border-color', `rgba(${preset.rgb}, 0.2)`);
-    document.documentElement.style.setProperty('--border-color-hover', `rgba(${preset.rgb}, 0.4)`);
+    document.documentElement.style.setProperty('--accent-glow', `rgba(${preset.rgb}, 0.15)`);
+    document.documentElement.style.setProperty('--accent-glow-strong', `rgba(${preset.rgb}, 0.3)`);
+    document.documentElement.style.setProperty('--border-color', '#dadce0');
+    document.documentElement.style.setProperty('--border-color-hover', '#bdc1c6');
   };
 
   // Run Navigation Simulation
@@ -200,14 +200,14 @@ export default function SettingsPanel({
   }, [simSpeed]);
 
   return (
-    <div className="futuristic-panel w-full rounded-lg p-4 pointer-events-auto border-t-2" style={{ borderTopColor: 'var(--accent-color)' }}>
+    <div className="futuristic-panel w-full rounded-lg p-4 pointer-events-auto border-t-2 flex flex-col h-full overflow-hidden" style={{ borderTopColor: 'var(--accent-color)' }}>
       {/* Title */}
       <div className="flex items-center gap-2 border-b border-slate-800 pb-2 mb-3">
         <Settings className="w-5 h-5 text-[var(--accent-color)] animate-spin-slow" />
         <h2 className="text-md font-mono font-bold tracking-widest text-white uppercase">Sistem Pengaturan</h2>
       </div>
 
-      <div className="space-y-4 text-sm text-slate-300">
+      <div className="space-y-4 text-sm text-slate-300 flex-1 overflow-y-auto pr-1">
         {/* 1. Accent Color Customizer */}
         <div>
           <label className="block text-xs uppercase tracking-wider text-slate-400 font-mono mb-2">Ambient Ambient Glow</label>

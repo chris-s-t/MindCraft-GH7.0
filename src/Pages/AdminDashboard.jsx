@@ -83,7 +83,7 @@ export default function AdminDashboard({ reports, fetchReports, onResolve, isOff
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#060814]/98 backdrop-blur-md overflow-y-auto p-4 md:p-8 flex flex-col font-sans text-slate-100 animate-fadeIn">
+    <div className="fixed inset-0 z-50 bg-[var(--bg-dark)]/98 backdrop-blur-md overflow-y-auto p-4 md:p-8 flex flex-col font-sans text-slate-800 animate-fadeIn">
 
       {/* Header */}
       <Header

@@ -1,27 +1,27 @@
 @import "tailwindcss";
 @import "leaflet/dist/leaflet.css";
 
-/* Minimalist Futuristic Ambient CSS Variables */
+/* Clean Light Google Maps Design Tokens */
 :root {
-  /* Default Ambient Colors (Cyber Cyan) */
-  --accent-color: #00f0ff;
-  --accent-color-rgb: 0, 240, 255;
-  --accent-glow: rgba(0, 240, 255, 0.4);
-  --accent-glow-strong: rgba(0, 240, 255, 0.8);
+  /* Google Maps Primary Colors */
+  --accent-color: #1a73e8; /* Google Blue */
+  --accent-color-rgb: 26, 115, 232;
+  --accent-glow: rgba(26, 115, 232, 0.12);
+  --accent-glow-strong: rgba(26, 115, 232, 0.25);
   
-  --bg-dark: #060814;
-  --bg-panel: rgba(10, 15, 36, 0.7);
-  --border-color: rgba(0, 240, 255, 0.2);
-  --border-color-hover: rgba(0, 240, 255, 0.4);
+  --bg-dark: #f8f9fa; /* Light grey backdrop */
+  --bg-panel: rgba(255, 255, 255, 0.98); /* Clean white card */
+  --border-color: #e8eaed; /* Light grey border */
+  --border-color-hover: #dadce0;
   
-  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'Orbitron', 'Courier New', Courier, monospace;
+  --font-sans: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Roboto Mono', 'Courier New', Courier, monospace;
 }
 
 /* Global Styles */
 html, body {
   background-color: var(--bg-dark);
-  color: #e2e8f0;
+  color: #202124; /* Google Dark Charcoal */
   font-family: var(--font-sans);
   margin: 0;
   padding: 0;
@@ -36,53 +36,53 @@ html, body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(10, 15, 36, 0.3);
+  background: #f1f3f4;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--border-color);
+  background: #dadce0;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-color);
+  background: #bdc1c6;
 }
 
-/* Futuristic Ambient Styling Utilities */
+/* Google Maps Panel Styles (replacing futuristic panel styling) */
 .futuristic-panel {
   background: var(--bg-panel);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-color);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 0 0 15px 0 var(--accent-glow) inset;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 16px;
 }
 
 .futuristic-panel:hover {
   border-color: var(--border-color-hover);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6), 0 0 20px 0 var(--accent-glow) inset, 0 0 10px 0 var(--accent-glow);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .neon-border {
-  border: 1px solid var(--accent-color);
-  box-shadow: 0 0 10px var(--accent-glow);
+  border: 1.5px solid var(--accent-color);
+  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
 .neon-text {
-  text-shadow: 0 0 8px var(--accent-glow);
   color: var(--accent-color);
 }
 
 .neon-glow-btn {
-  background: rgba(var(--accent-color-rgb), 0.1);
+  background: var(--accent-color);
   border: 1px solid var(--accent-color);
-  color: #fff;
+  color: #ffffff;
+  border-radius: 8px;
+  font-weight: 600;
   transition: all 0.2s ease-in-out;
-  text-shadow: 0 0 5px var(--accent-glow);
-  box-shadow: 0 0 10px rgba(var(--accent-color-rgb), 0.2);
+  box-shadow: 0 2px 4px rgba(26, 115, 232, 0.15);
 }
 
 .neon-glow-btn:hover:not(:disabled) {
-  background: rgba(var(--accent-color-rgb), 0.25);
-  box-shadow: 0 0 15px var(--accent-glow-strong), 0 0 5px var(--accent-glow) inset;
+  background: #1557b0; /* Darker Google Blue */
+  border-color: #1557b0;
+  box-shadow: 0 4px 12px rgba(26, 115, 232, 0.35);
   transform: translateY(-1px);
 }
 
@@ -90,58 +90,60 @@ html, body {
   transform: translateY(1px);
 }
 
-/* Leaflet Map Specific Overrides for Dark Cyber Theme */
+/* Leaflet Map Specific Overrides for Light Maps Theme */
 .leaflet-container {
-  background-color: #060814 !important;
+  background-color: #e8eaed !important;
   width: 100%;
   height: 100%;
   font-family: var(--font-sans) !important;
 }
 
-/* Custom leaflet control positioning to float over UI */
+/* Zoom controls resembling Google Maps clean style */
 .leaflet-control-zoom {
   border: 1px solid var(--border-color) !important;
-  background: var(--bg-panel) !important;
-  backdrop-filter: blur(12px) !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+  background: #ffffff !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12) !important;
+  border-radius: 8px !important;
+  overflow: hidden;
 }
 
 .leaflet-control-zoom-in, .leaflet-control-zoom-out {
-  background: transparent !important;
-  color: var(--accent-color) !important;
+  background: #ffffff !important;
+  color: #5f6368 !important;
   border-bottom: 1px solid var(--border-color) !important;
 }
 
 .leaflet-control-zoom-in:hover, .leaflet-control-zoom-out:hover {
-  background: rgba(var(--accent-color-rgb), 0.15) !important;
-  color: #fff !important;
+  background: #f8f9fa !important;
+  color: #202124 !important;
 }
 
-/* Popup Cyber Theme */
+/* Popup Light Material Design Theme */
 .leaflet-popup-content-wrapper {
-  background: rgba(10, 15, 36, 0.9) !important;
-  border: 1px solid var(--accent-color) !important;
-  backdrop-filter: blur(10px) !important;
-  color: #f8fafc !important;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.6), 0 0 15px var(--accent-glow) !important;
-  border-radius: 8px !important;
+  background: #ffffff !important;
+  border: 1px solid #e8eaed !important;
+  color: #202124 !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+  border-radius: 12px !important;
+  font-size: 12px !important;
+  padding: 4px !important;
 }
 
 .leaflet-popup-tip {
-  background: rgba(10, 15, 36, 0.9) !important;
-  border-left: 1px solid var(--accent-color) !important;
-  border-bottom: 1px solid var(--accent-color) !important;
+  background: #ffffff !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
 }
 
 .leaflet-popup-close-button {
-  color: var(--accent-color) !important;
+  color: #80868b !important;
+  padding: 8px !important;
 }
 
 .leaflet-popup-close-button:hover {
-  color: #ff3366 !important;
+  color: #202124 !important;
 }
 
-/* Map marker neon pulse */
+/* Map marker animation */
 .marker-pulse {
   width: 18px;
   height: 18px;
@@ -151,43 +153,49 @@ html, body {
   justify-content: center;
   color: white;
   font-weight: bold;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   animation: pulse-glow 2s infinite;
 }
 
 @keyframes pulse-glow {
   0% {
-    box-shadow: 0 0 0 0 rgba(var(--marker-color-rgb, 0, 240, 255), 0.7);
+    box-shadow: 0 0 0 0 rgba(var(--marker-color-rgb, 26, 115, 232), 0.5);
   }
   70% {
-    box-shadow: 0 0 0 8px rgba(var(--marker-color-rgb, 0, 240, 255), 0);
+    box-shadow: 0 0 0 8px rgba(var(--marker-color-rgb, 26, 115, 232), 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(var(--marker-color-rgb, 0, 240, 255), 0);
-  }
-}
-
-/* Ambient glow animations */
-@keyframes cyber-pulse {
-  0%, 100% {
-    opacity: 0.6;
-    box-shadow: 0 0 10px var(--accent-glow);
-  }
-  50% {
-    opacity: 1;
-    box-shadow: 0 0 20px var(--accent-glow-strong);
+    box-shadow: 0 0 0 0 rgba(var(--marker-color-rgb, 26, 115, 232), 0);
   }
 }
 
 .ambient-pulse {
-  animation: cyber-pulse 4s infinite ease-in-out;
+  box-shadow: 0 0 0 4px var(--accent-glow);
 }
 
-/* Cyber grid overlay */
-.cyber-grid {
-  background-image: 
-    linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  background-position: center;
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+.animate-slideDown {
+  animation: slideDown 0.2s ease-out forwards;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.2s ease-out forwards;
 }

@@ -3,9 +3,9 @@ import { Camera, X } from 'lucide-react';
 export default function PhotoUploadInput({ photo, setPhoto, onPhotoChange }) {
   return (
     <div>
-      <label className="block text-xs uppercase tracking-wider text-slate-400 font-mono mb-1">Lampiran Foto</label>
+      <label className="block text-xs uppercase tracking-wider text-slate-500 font-sans mb-1">Lampiran Foto</label>
       {photo ? (
-        <div className="relative rounded overflow-hidden border border-slate-800 bg-slate-950 h-32 flex items-center justify-center group">
+        <div className="relative rounded overflow-hidden border border-slate-200 bg-slate-50 h-32 flex items-center justify-center group">
           <img src={photo} alt="Upload preview" className="h-full w-full object-cover" />
           <button
             type="button"
@@ -16,7 +16,7 @@ export default function PhotoUploadInput({ photo, setPhoto, onPhotoChange }) {
           </button>
         </div>
       ) : (
-        <label className="border border-dashed border-slate-800 hover:border-[var(--accent-color)] rounded bg-slate-950/30 h-20 flex flex-col items-center justify-center cursor-pointer transition text-slate-500 hover:text-slate-300">
+        <label className="border border-dashed border-slate-300 hover:border-[var(--accent-color)] rounded bg-slate-50 h-20 flex flex-col items-center justify-center cursor-pointer transition text-slate-500 hover:text-slate-700">
           <Camera className="w-6 h-6 mb-1" />
           <span className="text-xs">Klik untuk unggah foto bahaya</span>
           <input

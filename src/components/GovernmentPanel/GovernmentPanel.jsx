@@ -20,10 +20,10 @@ export default function GovernmentPanel({ reports, onResolve, onOpenAdmin }) {
   };
 
   return (
-    <div className="futuristic-panel w-full rounded-lg p-4 pointer-events-auto border-t-2 flex flex-col max-h-[85vh]" style={{ borderTopColor: 'var(--accent-color)' }}>
+    <div className="futuristic-panel w-full rounded-lg p-4 pointer-events-auto border-t-2 flex flex-col h-full overflow-hidden" style={{ borderTopColor: 'var(--accent-color)' }}>
       <GovernmentHeader onOpenAdmin={onOpenAdmin} />
       <GovernmentTabs activeTab={activeTab} onTabChange={handleTabChange} />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 overflow-hidden h-[400px] flex-1">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 flex-1 min-h-0">
         <ReportList
           sortedReports={sorted}
           selectedReport={selectedReport}

@@ -6,7 +6,7 @@ import RoutePlanner from './Pages/RoutePlanner';
 import SettingsPanel from './components/SettingsPanel/SettingsPanel';
 import GovernmentPanel from './components/GovernmentPanel/GovernmentPanel';
 import AdminDashboard from './Pages/AdminDashboard';
-import { AlertTriangle, ShieldCheck, Settings, Navigation, AlertCircle } from 'lucide-react';
+import { AlertTriangle, ShieldCheck, Settings, Navigation, AlertCircle, HelpCircle } from 'lucide-react';
 
 const MOCK_REPORTS = [
   {
@@ -81,6 +81,7 @@ export default function App() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const [showAdminConsole, setShowAdminConsole] = useState(false);
+  const [showQuickReportTooltip, setShowQuickReportTooltip] = useState(false);
 
   const handleTabClick = (panel) => {
     setActivePanel(panel);
@@ -433,30 +434,30 @@ export default function App() {
   ];
 
   return (
-    <main className="w-screen h-screen flex flex-col md:flex-row relative bg-[#060814] text-slate-100 overflow-hidden font-sans">
-      {/* 1. Header (Futuristic HUD style) */}
-      <header className="absolute top-4 left-4 right-4 z-40 bg-[rgba(10,15,36,0.75)] backdrop-blur-md border border-[var(--border-color)] px-4 py-3 rounded-lg flex items-center justify-between pointer-events-auto shadow-2xl">
+    <main className="w-screen h-screen flex flex-col md:flex-row relative bg-[var(--bg-dark)] text-slate-800 overflow-hidden font-sans">
+      {/* 1. Header (Google Maps clean search/header style) */}
+      <header className="absolute top-4 left-4 right-4 z-40 bg-[var(--bg-panel)] border border-[var(--border-color)] px-4 py-3 rounded-xl flex items-center justify-between pointer-events-auto shadow-md">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded border border-[var(--accent-color)] flex items-center justify-center bg-[rgba(var(--accent-color-rgb),0.1)] shadow-[0_0_10px_var(--accent-glow)] animate-pulse">
+          <div className="w-8 h-8 rounded border border-[var(--accent-color)] flex items-center justify-center bg-[rgba(var(--accent-color-rgb),0.06)] shadow-[0_0_10px_var(--accent-glow)]">
             <AlertTriangle className="w-4 h-4 text-[var(--accent-color)]" />
           </div>
           <div>
-            <h1 className="text-sm font-mono font-extrabold tracking-widest text-white leading-none uppercase select-none">
-              MINDCRAFT <span className="text-[var(--accent-color)] neon-text font-black">//</span> SAFEROUTE
+            <h1 className="text-sm font-sans font-black tracking-wider text-slate-800 leading-none uppercase select-none">
+              MINDCRAFT <span className="text-[var(--accent-color)] font-black">//</span> SAFEROUTE
             </h1>
-            <span className="text-[9px] text-slate-400 font-mono tracking-wider">CROWDSOURCED ROAD HAZARD TRACKING SYSTEM</span>
+            <span className="text-[9px] text-slate-500 font-mono tracking-wider">CROWDSOURCED ROAD HAZARD TRACKING SYSTEM</span>
           </div>
         </div>
 
         {/* Database Status HUD */}
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 font-mono text-[9px] border px-2 py-0.5 rounded-full bg-slate-950/60" style={{ borderColor: isOfflineMode ? 'rgba(245,158,11,0.3)' : 'rgba(16,185,129,0.3)' }}>
+          <div className="flex items-center gap-1.5 font-mono text-[9px] border px-2 py-0.5 rounded-full bg-slate-100/80 border-slate-200" style={{ color: isOfflineMode ? '#b45309' : '#047857' }}>
             <span className={`w-1.5 h-1.5 rounded-full ${isOfflineMode ? 'bg-amber-500 animate-ping' : 'bg-emerald-500'}`} />
-            <span className={isOfflineMode ? 'text-amber-400' : 'text-emerald-400'}>
+            <span>
               {isOfflineMode ? 'DEMO MODE (LOCAL)' : 'SUPABASE CONNECTED'}
             </span>
           </div>
-          <div className="hidden sm:flex items-center gap-1.5 font-mono text-[9px] border border-slate-800 px-2 py-0.5 rounded-full bg-slate-950/60 text-slate-300">
+          <div className="hidden sm:flex items-center gap-1.5 font-mono text-[9px] border border-slate-200 px-2 py-0.5 rounded-full bg-slate-100/80 text-slate-600">
             <span>HAZARDS: {reports.filter(r => r.status !== 'resolved').length} AKTIF</span>
           </div>
         </div>
@@ -482,26 +483,26 @@ export default function App() {
       </div>
 
       {/* 3. Floating Left Panel Deck */}
-      <div className={`fixed md:absolute bottom-0 md:bottom-4 left-0 md:left-4 right-0 md:right-auto md:top-20 md:w-[460px] z-45 md:z-35 transition-all duration-300 ease-out bg-[rgba(8,12,30,0.95)] md:bg-transparent backdrop-blur-lg md:backdrop-blur-none border-t md:border-t-0 border-[var(--border-color)] rounded-t-2xl md:rounded-t-none flex flex-col pointer-events-auto md:pointer-events-none shadow-2xl md:shadow-none p-4 md:p-0 gap-3 ${isMobileExpanded ? 'h-[75vh]' : 'h-[105px] md:h-auto'}`}>
+      <div className={`fixed md:absolute bottom-0 md:bottom-4 left-0 md:left-4 right-0 md:right-auto md:top-20 md:w-[460px] z-45 md:z-35 transition-all duration-300 ease-out bg-[var(--bg-panel)] md:bg-transparent backdrop-blur-lg md:backdrop-blur-none border-t md:border-t-0 border-[var(--border-color)] rounded-t-2xl md:rounded-t-none flex flex-col pointer-events-auto md:pointer-events-none shadow-2xl md:shadow-none p-4 md:p-0 gap-3 md:h-[calc(100vh-96px)] ${isMobileExpanded ? 'h-[75vh]' : 'h-[105px]'}`}>
 
         {/* Mobile Drag Handle */}
         <div
           className="md:hidden w-full flex flex-col items-center pb-1 cursor-pointer"
           onClick={() => setIsMobileExpanded(!isMobileExpanded)}
         >
-          <div className="w-12 h-1 bg-slate-700 rounded-full mb-1" />
+          <div className="w-12 h-1 bg-slate-300 rounded-full mb-1" />
           <span className="text-[8px] font-mono text-slate-500 uppercase tracking-widest">
             {isMobileExpanded ? 'Tutup Detail' : 'Ketuk Untuk Detail'}
           </span>
         </div>
 
         {/* Toggle Menu */}
-        <div className="grid grid-cols-3 gap-1 bg-[rgba(10,15,36,0.8)] backdrop-blur-md p-1 rounded-lg border border-[var(--border-color)] pointer-events-auto font-mono text-[10px] tracking-wider shadow-lg">
+        <div className="grid grid-cols-3 gap-1 bg-slate-100/80 p-1 rounded-xl border border-[var(--border-color)] pointer-events-auto font-mono text-[10px] tracking-wider shadow-sm">
           <button
             onClick={() => handleTabClick('route')}
             className={`py-2 rounded flex flex-col items-center justify-center gap-1 cursor-pointer transition font-bold ${activePanel === 'route'
-              ? 'bg-[var(--accent-color)] text-slate-950 shadow-md font-black'
-              : 'text-slate-400 hover:text-white hover:bg-slate-950/30'
+              ? 'bg-[var(--accent-color)] text-white shadow-sm font-black'
+              : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'
               }`}
           >
             <Navigation className="w-4 h-4" />
@@ -510,8 +511,8 @@ export default function App() {
           <button
             onClick={() => handleTabClick('gov')}
             className={`py-2 rounded flex flex-col items-center justify-center gap-1 cursor-pointer transition font-bold ${activePanel === 'gov'
-              ? 'bg-[var(--accent-color)] text-slate-950 shadow-md font-black'
-              : 'text-slate-400 hover:text-white hover:bg-slate-950/30'
+              ? 'bg-[var(--accent-color)] text-white shadow-sm font-black'
+              : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'
               }`}
           >
             <ShieldCheck className="w-4 h-4" />
@@ -520,8 +521,8 @@ export default function App() {
           <button
             onClick={() => handleTabClick('settings')}
             className={`py-2 rounded flex flex-col items-center justify-center gap-1 cursor-pointer transition font-bold ${activePanel === 'settings'
-              ? 'bg-[var(--accent-color)] text-slate-950 shadow-md font-black'
-              : 'text-slate-400 hover:text-white hover:bg-slate-950/30'
+              ? 'bg-[var(--accent-color)] text-white shadow-sm font-black'
+              : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'
               }`}
           >
             <Settings className="w-4 h-4" />
@@ -571,14 +572,33 @@ export default function App() {
         </div>
       </div>
 
-      {/* 4. Floating Report Trigger Instructions */}
+      {/* 4. Floating Report Trigger Instructions (Google Maps Style Help Popover) */}
       {!showReportForm && (
-        <div className="absolute right-4 top-20 z-30 pointer-events-none hidden lg:block">
-          <div className="bg-slate-950/70 backdrop-blur border border-slate-800 p-2.5 rounded shadow-lg max-w-[200px] text-center font-mono text-[9px] text-slate-400 flex flex-col items-center gap-1">
-            <AlertCircle className="w-4 h-4 text-[var(--accent-color)] animate-bounce" />
-            <span className="text-white font-bold block uppercase tracking-wide">Lapor Cepat</span>
-            Klik lokasi mana saja langsung di peta untuk membuka form pelaporan bahaya.
-          </div>
+        <div className="absolute right-[14px] bottom-[92px] z-35 flex items-center pointer-events-none">
+          {/* Tooltip Popover (Appears on hover to the left/top-left of the question mark button) */}
+          {showQuickReportTooltip && (
+            <div className="absolute right-[38px] bottom-0 z-40 bg-white border border-slate-200 p-3 rounded-xl shadow-lg w-[220px] text-xs text-slate-600 animate-fadeIn pointer-events-auto">
+              <div className="flex items-center gap-1.5 font-bold text-slate-800 uppercase tracking-wide text-[10px] mb-1">
+                <AlertCircle className="w-3.5 h-3.5 text-[var(--accent-color)] animate-bounce" />
+                Lapor Cepat
+              </div>
+              <p className="leading-snug text-slate-500">
+                Klik lokasi mana saja langsung di peta untuk membuka form pelaporan bahaya.
+              </p>
+            </div>
+          )}
+
+          {/* Circular Question Mark Help Button */}
+          <button
+            type="button"
+            onMouseEnter={() => setShowQuickReportTooltip(true)}
+            onMouseLeave={() => setShowQuickReportTooltip(false)}
+            onClick={() => setShowQuickReportTooltip(!showQuickReportTooltip)}
+            className="w-[30px] h-[30px] rounded-full flex items-center justify-center bg-white border border-slate-200 shadow-md hover:shadow-lg text-slate-500 hover:text-slate-800 transition-all cursor-pointer pointer-events-auto"
+            title="Petunjuk Lapor Cepat"
+          >
+            <HelpCircle className="w-4 h-4" />
+          </button>
         </div>
       )}
 

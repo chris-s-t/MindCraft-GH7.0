@@ -74,7 +74,7 @@ async function checkImageNSFW(imageUrl) {
   }
 
   try {
-    const HF_TOKEN = "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"; 
+    const HF_TOKEN = import.meta.env.VITE_HF_TOKEN;; 
     
     const responseImg = await fetch(imageUrl);
     const blob = await responseImg.blob();

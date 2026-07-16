@@ -7,6 +7,8 @@ import SettingsPanel from './components/SettingsPanel/SettingsPanel';
 import GovernmentPanel from './components/GovernmentPanel/GovernmentPanel';
 import AdminDashboard from './Pages/AdminDashboard';
 import { AlertTriangle, ShieldCheck, Settings, Navigation, AlertCircle, HelpCircle } from 'lucide-react';
+import * as tf from '@tensorflow/tfjs';
+import * as nsfwjs from 'nsfwjs';
 
 const MOCK_REPORTS = [
   {
@@ -68,41 +70,27 @@ const MOCK_REPORTS = [
 ];
 
 async function checkImageNSFW(imageUrl) {
-  // MOCK MENGGUNAKAN STRING URL UNTUK TESTING AMAN TANPA FOTO ASLI
-  if (imageUrl.includes("test-nsfw")) {
-    return true; // Pemicu simulasi deteksi NSFW berhasil
-  }
+  // Load model once
+  const model = await nsfwjs.load()
 
-  try {
-    const HF_TOKEN = import.meta.env.VITE_HF_TOKEN;; 
-    
-    const responseImg = await fetch(imageUrl);
-    const blob = await responseImg.blob();
+  // Create an image element
+  const img = new Image()
+  img.crossOrigin = 'anonymous'
+  img.src = imageUrl
 
-    const apiResponse = await fetch(
-      "https://api-inference.huggingface.co/models/Falconsai/nsfw_image_detection",
-      {
-        headers: { Authorization: `Bearer ${HF_TOKEN}` },
-        method: "POST",
-        body: blob,
-      }
-    );
+  await new Promise((resolve) => { img.onload = resolve })
 
-    const result = await apiResponse.json();
-    
-    if (Array.isArray(result) && result.length > 0) {
-      // Cari label 'nsfw' dengan skor akurasi (confidence score) di atas 70%
-      const nsfwScore = result.find(res => res.label.toLowerCase() === 'nsfw');
-      if (nsfwScore && nsfwScore.score > 0.7) {
-        return true; 
-      }
-    }
-    return false; 
-  } catch (error) {
-    console.error("Gagal memeriksa sensor NSFW gambar:", error);
-    // Jika API down/error, kembalikan false agar aplikasi tidak crash total
-    return false; 
-  }
+  // Classify
+  const predictions = await model.classify(img)
+
+  // predictions looks like:
+  // [{ className: 'Porn', probability: 0.92 }, { className: 'Safe', probability: 0.05 }, ...]
+
+  const unsafe = predictions.find(
+    (p) => ['Porn', 'Hentai', 'Sexy'].includes(p.className) && p.probability > 0.7
+  )
+
+  return !!unsafe // returns true if NSFW
 }
 
 export default function App() {

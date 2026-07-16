@@ -82,6 +82,8 @@ export default function App() {
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const [showAdminConsole, setShowAdminConsole] = useState(false);
   const [showQuickReportTooltip, setShowQuickReportTooltip] = useState(false);
+  const [clickMode, setClickMode] = useState(null); // 'start' | 'destination' | null
+  const [focusedReport, setFocusedReport] = useState(null);
 
   const handleTabClick = (panel) => {
     setActivePanel(panel);
@@ -491,6 +493,9 @@ export default function App() {
           userLocation={userLocation}
           simulatePosition={simulatePosition}
           alertRange={alertRange}
+          clickMode={clickMode}
+          setClickMode={setClickMode}
+          focusedReport={focusedReport}
         />
       </div>
 
@@ -556,6 +561,9 @@ export default function App() {
               routeAlternatives={routeAlternatives}
               setRouteAlternatives={setRouteAlternatives}
               userLocation={userLocation}
+              clickMode={clickMode}
+              setClickMode={setClickMode}
+              onSelectReport={setFocusedReport}
             />
           )}
 
@@ -564,6 +572,7 @@ export default function App() {
               reports={allReportsForGov}
               onResolve={handleResolve}
               onOpenAdmin={() => setShowAdminConsole(true)}
+              onSelectReport={setFocusedReport}
             />
           )}
 

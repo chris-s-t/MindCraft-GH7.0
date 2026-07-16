@@ -11,7 +11,8 @@ const JAKARTA_PRESETS = [
   { name: 'Menteng Park', lat: -6.1963, lng: 106.8320 }
 ];
 
-export default function RoutePlanner({ reports,
+export default function RoutePlanner({
+  reports,
   startCoord,
   setStartCoord,
   destinationCoord,
@@ -20,9 +21,11 @@ export default function RoutePlanner({ reports,
   setActiveRoute,
   routeAlternatives,
   setRouteAlternatives,
-  userLocation }
-) {
-  const [clickMode, setClickMode] = useState(null); // 'start' | 'destination' | null
+  userLocation,
+  clickMode,
+  setClickMode,
+  onSelectReport
+}) {
   const [loading, setLoading] = useState(false);
 
   const handlePresetSelect = (preset, target) => {
@@ -279,7 +282,17 @@ export default function RoutePlanner({ reports,
                               other: 'Bahaya Lain'
                             };
                             return (
-                              <span key={`h-tag-${hIdx}`} className="bg-slate-100 border border-slate-200 px-1 rounded">
+                              <span
+                                key={`h-tag-${hIdx}`}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (onSelectReport) {
+                                    onSelectReport(h);
+                                  }
+                                }}
+                                className="bg-slate-150 hover:bg-slate-250 border border-slate-300 px-1.5 py-0.5 rounded cursor-pointer transition text-slate-650 hover:text-slate-850"
+                                title="Lihat di peta"
+                              >
                                 • {hazardMeta[h.type] || 'Bahaya'}
                               </span>
                             );

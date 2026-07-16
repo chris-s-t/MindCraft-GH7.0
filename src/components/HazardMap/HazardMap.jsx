@@ -15,6 +15,14 @@ export default function HazardMap({
   routeAlternatives,
   userLocation,
   simulatePosition,
+  alertRange,
+  clickMode,
+  setClickMode,
+  startCoord,
+  setStartCoord,
+  destinationCoord,
+  setDestinationCoord,
+  focusedReport,
 }) {
   const mapContainerRef = useRef(null)
   const mapRef = useRef(null)
@@ -32,6 +40,35 @@ export default function HazardMap({
     }
   }
 
+  // Fly/pan to selected report coordinate on map
+  useEffect(() => {
+    if (focusedReport && mapRef.current) {
+      mapRef.current.flyTo([focusedReport.latitude, focusedReport.longitude], 16, {
+        animate: true,
+        duration: 1.5
+      });
+    }
+  }, [focusedReport]);
+
+  // Keep references to state in a Ref to avoid stale closure issues in Leaflet click handler
+  const mapStateRef = useRef({
+    clickMode,
+    setClickMode,
+    setStartCoord,
+    setDestinationCoord,
+    setSelectedLocation
+  })
+
+  useEffect(() => {
+    mapStateRef.current = {
+      clickMode,
+      setClickMode,
+      setStartCoord,
+      setDestinationCoord,
+      setSelectedLocation
+    }
+  }, [clickMode, setClickMode, setStartCoord, setDestinationCoord, setSelectedLocation])
+
   useEffect(() => {
     if (!mapContainerRef.current || mapRef.current) return
 
@@ -39,9 +76,10 @@ export default function HazardMap({
       zoomControl: false
     }).setView([-6.1754, 106.8272], 13)
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+    }).addTo(map)
 
     L.control.zoom({ position: 'bottomright' }).addTo(map)
 
@@ -52,7 +90,29 @@ export default function HazardMap({
 
     map.on('click', (e) => {
       const { lat, lng } = e.latlng
-      setSelectedLocation({ lat, lng })
+      const {
+        clickMode: latestClickMode,
+        setStartCoord: latestSetStart,
+        setDestinationCoord: latestSetDest,
+        setClickMode: latestSetMode,
+        setSelectedLocation: latestSetSelected
+      } = mapStateRef.current;
+
+      if (latestClickMode) {
+        const label = latestClickMode === 'start' ? 'Titik Awal (Start)' : 'Titik Tujuan (Destination)';
+        const confirmSelect = window.confirm(`Apakah Anda yakin ingin menetapkan koordinat (${lat.toFixed(5)}, ${lng.toFixed(5)}) sebagai ${label}?`);
+
+        if (confirmSelect) {
+          if (latestClickMode === 'start') {
+            latestSetStart({ lat, lng });
+          } else {
+            latestSetDest({ lat, lng });
+          }
+          latestSetMode(null);
+        }
+      } else {
+        latestSetSelected({ lat, lng });
+      }
     })
 
     // Disable auto-tracking on user drag/zoom
@@ -66,7 +126,7 @@ export default function HazardMap({
       map.remove()
       mapRef.current = null
     }
-  }, [setSelectedLocation])
+  }, [])
 
   return (
     <div className="relative w-full h-full overflow-hidden">

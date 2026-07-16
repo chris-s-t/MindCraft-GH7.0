@@ -5,7 +5,7 @@ import ReportList from './ReportList';
 import ReportDetail from './ReportDetail';
 import { filterReports, sortReports } from '../../Functions/Government/reportHelpers';
 
-export default function GovernmentPanel({ reports, onResolve, onOpenAdmin }) {
+export default function GovernmentPanel({ reports, onResolve, onOpenAdmin, onSelectReport }) {
   const [activeTab, setActiveTab] = useState('active'); // 'active' | 'resolved'
   const [selectedReportId, setSelectedReportId] = useState(null);
 
@@ -13,6 +13,14 @@ export default function GovernmentPanel({ reports, onResolve, onOpenAdmin }) {
   const sorted = sortReports(filtered, activeTab);
 
   const selectedReport = sorted.find(r => r.id === selectedReportId) || sorted[0];
+
+  const handleSelectReport = (id) => {
+    setSelectedReportId(id);
+    const report = sorted.find(r => r.id === id);
+    if (report && onSelectReport) {
+      onSelectReport(report);
+    }
+  };
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -27,7 +35,7 @@ export default function GovernmentPanel({ reports, onResolve, onOpenAdmin }) {
         <ReportList
           sortedReports={sorted}
           selectedReport={selectedReport}
-          onSelectReport={setSelectedReportId}
+          onSelectReport={handleSelectReport}
           selectedReportId={selectedReportId}
         />
         <ReportDetail

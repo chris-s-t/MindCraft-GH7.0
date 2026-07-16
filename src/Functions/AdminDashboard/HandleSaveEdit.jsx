@@ -19,8 +19,12 @@ export const handleSaveEdit = async (e, {
     'low': 'Rendah',
     'medium': 'Sedang',
     'high': 'Tinggi',
-    'critical': 'Tinggi'
   };
+  const statusMapReverse = {
+    'pending': 'Aktif',
+    'working': 'Ditangani',
+    'resolved': 'Selesai'
+  }
 
   if (isOfflineMode) {
     const localData = localStorage.getItem('mindcraft_reports');
@@ -48,7 +52,7 @@ export const handleSaveEdit = async (e, {
           deskripsi: editDesc,
           jenis: typeMapReverse[editType] || 'Other',
           hazard_level: levelMapReverse[editLevel] || 'Sedang',
-          status: editStatus
+          status: statusMapReverse[editStatus]
         })
         .eq('id', editingReport.id);
 

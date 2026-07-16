@@ -69,9 +69,14 @@ const MOCK_REPORTS = [
   }
 ];
 
+let nsfwModel = null;
+
 async function checkImageNSFW(imageUrl) {
-  // Load model once
-  const model = await nsfwjs.load()
+  // Load model once and cache it
+  if (!nsfwModel) {
+    nsfwModel = await nsfwjs.load('MobileNetV2');
+  }
+  const model = nsfwModel;
 
   // Create an image element
   const img = new Image()
@@ -262,7 +267,7 @@ export default function App() {
             type: typeMap[dbItem.jenis] || 'other',
             title: dbItem.judul,
             description: dbItem.deskripsi,
-            photo_url: dbItem.foto_url,
+            foto_url: dbItem.photo_url,
             latitude: dbItem.lat,
             longitude: dbItem.lng,
             display_name: dbItem.display_name || `Lokasi (${dbItem.lat}, ${dbItem.lng})`,

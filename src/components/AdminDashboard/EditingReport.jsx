@@ -61,9 +61,9 @@ export default function EditingReport({ handleSaveEdit, setEditingReport, editTi
               onChange={(e) => setEditStatus(e.target.value)}
               className="w-full bg-white border border-slate-300 rounded px-2 py-2 text-slate-850 focus:border-[var(--accent-color)] focus:outline-none font-bold"
             >
-              <option value="Aktif" className="text-amber-600">Aktif (Pending)</option>
-              <option value="Ditangani" className="text-blue-600">Ditangani (In Progress)</option>
-              <option value="Selesai" className="text-emerald-600">Selesai (Resolved)</option>
+              <option value="pending" className="text-amber-600">Aktif (Pending)</option>
+              <option value="working" className="text-blue-600">Ditangani (In Progress)</option>
+              <option value="resolved" className="text-emerald-600">Selesai (Resolved)</option>
             </select>
           </div>
 

@@ -196,12 +196,12 @@ export default function DatabaseGrid({
 
                     {/* Status */}
                     <td className="p-3">
-                      {r.status === 'Selesai' ? (
+                      {r.status === 'resolved' ? (
                         <span className="text-emerald-600 font-bold flex items-center gap-1 text-[10px]">
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                           SELESAI
                         </span>
-                      ) : r.status === 'Ditangani' ? (
+                      ) : r.status === 'working' ? (
                         <span className="text-blue-600 font-bold flex items-center gap-1 text-[10px]">
                           <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
                           DITANGANI

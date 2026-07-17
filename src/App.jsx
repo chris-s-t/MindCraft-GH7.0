@@ -496,7 +496,7 @@ export default function App() {
           </div>
           <div>
             <h1 className="text-sm font-sans font-black tracking-wider text-slate-800 leading-none uppercase select-none">
-              MINDCRAFT <span className="text-[var(--accent-color)] font-black">//</span> SAFEROUTE
+              MINDCRAFT <span className="text-[var(--accent-color)] font-black">//</span> ViaSafe
             </h1>
             <span className="text-[9px] text-slate-500 font-mono tracking-wider">CROWDSOURCED ROAD HAZARD TRACKING SYSTEM</span>
           </div>

@@ -11,7 +11,7 @@ function Header({ handleRefresh, isRefreshing, onClose }) {
           <h1 className="text-lg font-sans font-black tracking-wider text-slate-800 uppercase leading-none">
             KONSOL ADMINISTRATOR <span className="text-[var(--accent-color)] font-black">//</span> DATABASE
           </h1>
-          <span className="text-[10px] text-slate-500 font-mono tracking-wider">MUNICIPAL WEB CONSOLE - MINDRAFT SAFEROUTE</span>
+          <span className="text-[10px] text-slate-500 font-mono tracking-wider">MUNICIPAL WEB CONSOLE - MINDRAFT VIASAFE</span>
         </div>
       </div>
 

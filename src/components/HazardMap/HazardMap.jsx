@@ -5,6 +5,7 @@ import HazardMarkers from './HazardMarkers'
 import RouteLayer from './RouteLayer'
 import UserMarker from './UserMarker'
 import TempMarker from './TempMarker'
+import { HAZARD_TYPES } from '../../lib/hazardTypes'
 
 export default function HazardMap({
   reports,
@@ -40,13 +41,28 @@ export default function HazardMap({
     }
   }
 
-  // Fly/pan to selected report coordinate on map
+  // Fly/pan to selected report coordinate on map and open its popup
   useEffect(() => {
     if (focusedReport && mapRef.current) {
+      setTrackUser(false);
       mapRef.current.flyTo([focusedReport.latitude, focusedReport.longitude], 16, {
         animate: true,
         duration: 1.5
       });
+
+      const openReportPopup = () => {
+        if (markersGroupRef.current) {
+          const markers = markersGroupRef.current.getLayers();
+          const marker = markers.find(m => m.reportId === focusedReport.id);
+          if (marker) {
+            marker.openPopup();
+          }
+        }
+      };
+
+      openReportPopup();
+      const timer = setTimeout(openReportPopup, 300);
+      return () => clearTimeout(timer);
     }
   }, [focusedReport]);
 
@@ -142,6 +158,24 @@ export default function HazardMap({
       >
         <Locate className={`w-6 h-6 text-orange-600 transition-all ${trackUser ? 'animate-pulse scale-110' : 'hover:scale-105'}`} />
       </button>
+
+      {/* Map Legend */}
+      <div className="absolute top-40 right-4 z-[1000] bg-white/95 backdrop-blur border border-slate-200/80 p-3 rounded-2xl shadow-md w-36 transition-all duration-200 hover:shadow-lg pointer-events-auto select-none">
+        <h5 className="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-1.5 border-b border-slate-100 pb-1 font-mono">
+          LEGENDA PETA
+        </h5>
+        <div className="flex flex-col gap-2">
+          {Object.entries(HAZARD_TYPES).map(([key, value]) => (
+            <div key={key} className="flex items-center gap-2 text-[11px] font-semibold text-slate-700">
+              <span 
+                className="w-2.5 h-2.5 rounded-full border border-white shadow-sm shrink-0" 
+                style={{ backgroundColor: value.color }} 
+              />
+              <span className="truncate leading-none">{value.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
 
       <HazardMarkers
         mapRef={mapRef}
